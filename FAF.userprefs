@@ -1,0 +1,38 @@
+﻿<Properties StartupConfiguration="{8B23AB90-4497-4A8B-9A51-C12AD716C5AC}|Default">
+  <MonoDevelop.Ide.Workbench ActiveDocument="FAFSprite.cs">
+    <Files>
+      <File FileName="iOS/Main.cs" Line="49" Column="6" />
+      <File FileName="FAFSprite.cs" Line="39" Column="10" />
+      <File FileName="FAFScrollingBackground.cs" Line="60" Column="71" />
+      <File FileName="FAFInfluencer.cs" Line="5" Column="6" />
+      <File FileName="iOS/Info.plist" />
+    </Files>
+    <Pads>
+      <Pad Id="ProjectPad">
+        <State name="__root__">
+          <Node name="FAF" expanded="True">
+            <Node name="FAF" expanded="True">
+              <Node name="FAFSprite.cs" selected="True" />
+            </Node>
+            <Node name="FAF.Droid" expanded="True">
+              <Node name="Assets" expanded="True">
+                <Node name="Content" expanded="True" />
+              </Node>
+            </Node>
+            <Node name="FAF.iOS" expanded="True">
+              <Node name="Content" expanded="True" />
+              <Node name="Properties" expanded="True" />
+            </Node>
+          </Node>
+        </State>
+      </Pad>
+    </Pads>
+  </MonoDevelop.Ide.Workbench>
+  <MonoDevelop.Ide.Workspace ActiveConfiguration="Debug|iPhoneSimulator" />
+  <MonoDevelop.Ide.DebuggingService.Breakpoints>
+    <BreakpointStore />
+  </MonoDevelop.Ide.DebuggingService.Breakpoints>
+  <MonoDevelop.Ide.ItemProperties.FAF.Droid PreferredExecutionTarget="Android.ENU7N16315000767" />
+  <MonoDevelop.Ide.DebuggingService.PinnedWatches />
+  <MonoDevelop.Ide.ItemProperties.FAF.iOS PreferredExecutionTarget="MonoDevelop.IPhone.IPhoneSimulatorTarget.8D9482C9-AF07-4A92-BEF2-F11AF724315C" />
+</Properties>
