@@ -18,6 +18,8 @@ namespace FAF
         Texture2D uiBackgroundGrey, uiBackgroundShadow;
         Texture2D uiFingerGlyph;
 
+        FAFSprite spritePlayer;
+
         FAFScrollingBackground scrollingBackground;
 
         public Game1()
@@ -71,6 +73,10 @@ namespace FAF
             uiBackgroundGrey.SetData(new[] { new Color(49, 49, 49) });
             uiBackgroundShadow.SetData(new[] { new Color(0f, 0f, 0f, 0.5f) });
             uiFingerGlyph = Content.Load<Texture2D>("MiddleFinger");
+
+            spritePlayer = new FAFSprite("Content/CharacterPlayer.png", FAFSpriteAnimation.FromFrameCount(250, 358, 12, frameRate: 0.04));
+            spritePlayer.Position = new Vector2(50, GraphicsDevice.Viewport.Height - 400);
+            spritePlayer.LoadContent(GraphicsDevice);
         }
 
         protected override void UnloadContent()
@@ -104,6 +110,7 @@ namespace FAF
 #endif
 
             scrollingBackground.Update(gameTime, 160, FAFScrollingBackground.ScrollDirection.Left);
+            spritePlayer.Update(gameTime);
 
             base.Update(gameTime);
         }
@@ -157,8 +164,10 @@ namespace FAF
 
             // level time
             DrawRectangleText(fontCAFMassive, 20, 20, "12pm", Color.White);
+            // level score
             DrawRectangleText(fontCAFMassive, -40, 20, "1927", Color.White, uiFingerGlyph);
-            
+            // player
+            spritePlayer.Draw(spriteBatch);
 
             spriteBatch.End();
 

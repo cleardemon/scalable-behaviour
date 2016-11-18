@@ -107,8 +107,12 @@ namespace FAF
             }
 
             // update positions of sprites
+            var speedVector = new Vector2(speed, 0);
             foreach (var sp in spriteBackground)
-                sp.Update(gt, new Vector2(speed, 0), vDirection);
+            {
+                sp.Update(gt);
+                sp.Position += vDirection * speedVector * (float)gt.ElapsedGameTime.TotalSeconds;
+            }
         }
 
         public void Draw(SpriteBatch sb)

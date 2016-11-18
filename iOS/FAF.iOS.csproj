@@ -120,6 +120,7 @@
     <BundleResource Include="Content\Background08.png" />
     <BundleResource Include="Content\Background09.png" />
     <BundleResource Include="Content\MiddleFinger.png" />
+    <BundleResource Include="Content\CharacterPlayer.png" />
   </ItemGroup>
   <ItemGroup>
     <MonoGameContentReference Include="Content\Content.mgcb" />
