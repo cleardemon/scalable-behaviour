@@ -14,6 +14,10 @@ namespace FAF
         GraphicsDeviceManager graphics;
         SpriteBatch spriteBatch;
 
+        SpriteFont fontCAFNormal, fontCAFMassive;
+        Texture2D uiBackgroundGrey, uiBackgroundShadow;
+        Texture2D uiFingerGlyph;
+
         FAFScrollingBackground scrollingBackground;
 
         public Game1()
@@ -54,6 +58,33 @@ namespace FAF
             scrollingBackground.AddBackground("Content/Background06.png");
             scrollingBackground.AddBackground("Content/Background07.png");
             scrollingBackground.LoadContent(GraphicsDevice);
+
+            // init font
+            fontCAFNormal = Content.Load<SpriteFont>("CAFFont");
+            fontCAFMassive = Content.Load<SpriteFont>("CAFFontMassive");
+
+            // ui
+            uiBackgroundGrey = new Texture2D(GraphicsDevice, 1, 1);
+            uiBackgroundShadow = new Texture2D(GraphicsDevice, 1, 1);
+            uiBackgroundGrey.SetData(new[] { new Color(49, 49, 49) });
+            uiBackgroundShadow.SetData(new[] { new Color(0f, 0f, 0f, 0.5f) });
+            //uiFingerGlyph = Content.Load<Texture2D>("MiddleFinger");
+        }
+
+        protected override void UnloadContent()
+        {
+            base.UnloadContent();
+
+            if (uiBackgroundGrey != null)
+            {
+                uiBackgroundGrey.Dispose();
+                uiBackgroundGrey = null;
+            }
+            if (uiBackgroundShadow != null)
+            {
+                uiBackgroundShadow.Dispose();
+                uiBackgroundShadow = null;
+            }
         }
 
         /// <summary>
@@ -75,6 +106,42 @@ namespace FAF
             base.Update(gameTime);
         }
 
+        void DrawShadowRectangle(Rectangle rectPos)
+        {
+            const int ShadowOffset = 5;
+            spriteBatch.Draw(uiBackgroundShadow, destinationRectangle: new Rectangle(rectPos.X + ShadowOffset, rectPos.Y + ShadowOffset, rectPos.Width + ShadowOffset, rectPos.Height + ShadowOffset));
+            spriteBatch.Draw(uiBackgroundGrey, destinationRectangle: rectPos);
+        }
+
+        void DrawRectangleText(SpriteFont font, int x, int y, string text, Color colour, Texture2D glyph = null)
+        {
+            const int shadowExtraWidth = 40, shadowExtraHeight = 20;
+            var fontSize = font.MeasureString(text);
+            if (glyph != null)
+            {
+                fontSize.X += glyph.Width + shadowExtraWidth;
+                fontSize.Y = Math.Max(fontSize.Y, fontSize.Y + glyph.Height) + shadowExtraHeight;
+            }            
+            int rx, ry;
+            if (x < 0)
+                rx = GraphicsDevice.Viewport.Width - (-x) - (int)fontSize.X - shadowExtraWidth;
+            else
+                rx = x;
+            if (y < 0)
+                ry = GraphicsDevice.Viewport.Height - (-y) - (int)fontSize.Y - shadowExtraHeight;
+            else
+                ry = y;
+
+            DrawShadowRectangle(new Rectangle(rx, ry, (int)fontSize.X + shadowExtraWidth, (int)fontSize.Y + shadowExtraHeight));
+            if (glyph == null)
+                spriteBatch.DrawString(font, text, new Vector2(rx + (shadowExtraWidth / 2), ry + (shadowExtraHeight / 2)), colour);
+            else
+            {
+                spriteBatch.Draw(glyph, destinationRectangle: new Rectangle(rx + (shadowExtraWidth / 2), ry + (shadowExtraHeight / 2), glyph.Width, glyph.Height));
+                spriteBatch.DrawString(font, text, new Vector2(rx + (shadowExtraWidth / 2), ry + (shadowExtraHeight / 2)), colour);
+            }
+        }
+
         /// <summary>
         /// This is called when the game should draw itself.
         /// </summary>
@@ -85,7 +152,15 @@ namespace FAF
 
             spriteBatch.Begin();
             scrollingBackground.Draw(spriteBatch);
+
+            // level time
+            DrawRectangleText(fontCAFMassive, 20, 20, "12pm", Color.White);
+            DrawRectangleText(fontCAFMassive, -40, 20, "1927", Color.White, uiFingerGlyph);
+            
+
             spriteBatch.End();
+
+
 
             base.Draw(gameTime);
         }

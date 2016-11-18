@@ -1,32 +1,12 @@
 ﻿<Properties StartupConfiguration="{8B23AB90-4497-4A8B-9A51-C12AD716C5AC}|Default">
-  <MonoDevelop.Ide.Workbench ActiveDocument="FAFSprite.cs">
+  <MonoDevelop.Ide.Workbench ActiveDocument="Game1.cs">
     <Files>
       <File FileName="iOS/Main.cs" Line="49" Column="6" />
-      <File FileName="FAFSprite.cs" Line="39" Column="10" />
-      <File FileName="FAFScrollingBackground.cs" Line="60" Column="71" />
-      <File FileName="FAFInfluencer.cs" Line="5" Column="6" />
+      <File FileName="FAFScrollingBackground.cs" Line="30" Column="53" />
+      <File FileName="FAFInfluencer.cs" Line="3" Column="2" />
       <File FileName="iOS/Info.plist" />
+      <File FileName="Game1.cs" Line="124" Column="14" />
     </Files>
-    <Pads>
-      <Pad Id="ProjectPad">
-        <State name="__root__">
-          <Node name="FAF" expanded="True">
-            <Node name="FAF" expanded="True">
-              <Node name="FAFSprite.cs" selected="True" />
-            </Node>
-            <Node name="FAF.Droid" expanded="True">
-              <Node name="Assets" expanded="True">
-                <Node name="Content" expanded="True" />
-              </Node>
-            </Node>
-            <Node name="FAF.iOS" expanded="True">
-              <Node name="Content" expanded="True" />
-              <Node name="Properties" expanded="True" />
-            </Node>
-          </Node>
-        </State>
-      </Pad>
-    </Pads>
   </MonoDevelop.Ide.Workbench>
   <MonoDevelop.Ide.Workspace ActiveConfiguration="Debug|iPhoneSimulator" />
   <MonoDevelop.Ide.DebuggingService.Breakpoints>

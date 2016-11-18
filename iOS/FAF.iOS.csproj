@@ -102,6 +102,9 @@
   <ItemGroup>
     <None Include="Info.plist" />
     <None Include="Entitlements.plist" />
+    <None Include="Content\CAFFont.spritefont" />
+    <None Include="Content\GothamRounded-Medium.otf" />
+    <None Include="Content\CAFFontMassive.spritefont" />
   </ItemGroup>
   <ItemGroup>
     <BundleResource Include="GameThumbnail.png" />

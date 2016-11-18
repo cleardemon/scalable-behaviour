@@ -6,6 +6,11 @@ using Microsoft.Xna.Framework.Content;
 
 namespace FAF
 {
+    public class FAFSpriteAnimationFrame
+    {
+        
+    }
+
     public class FAFSprite
     {
         public Vector2 Position
