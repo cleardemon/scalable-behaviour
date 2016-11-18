@@ -57,7 +57,7 @@ namespace FAF
                 {
                     var sp = new FAFSprite(spriteBackground[i].AssetName);
                     sp.LoadContent(gd);
-                    sp.Scale = new Vector2(viewPort.Height / sp.Size.Height);
+                    sp.Scale = new Vector2((float)viewPort.Height / (float)sp.Size.Height);
                     sp.Position = new Vector2(spriteRightMost.Position.X + spriteRightMost.Size.Width, viewPort.Y);
                     spriteBackground.Add(sp);
                     spriteRightMost = sp;

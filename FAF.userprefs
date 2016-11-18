@@ -1,18 +1,23 @@
 ﻿<Properties StartupConfiguration="{8B23AB90-4497-4A8B-9A51-C12AD716C5AC}|Default">
-  <MonoDevelop.Ide.Workbench ActiveDocument="Game1.cs">
+  <MonoDevelop.Ide.Workbench ActiveDocument="FAFSprite.cs">
     <Files>
       <File FileName="iOS/Main.cs" Line="49" Column="6" />
-      <File FileName="FAFScrollingBackground.cs" Line="30" Column="53" />
+      <File FileName="FAFScrollingBackground.cs" Line="35" Column="1" />
       <File FileName="FAFInfluencer.cs" Line="3" Column="2" />
       <File FileName="iOS/Info.plist" />
-      <File FileName="Game1.cs" Line="124" Column="14" />
+      <File FileName="Game1.cs" Line="62" Column="37" />
+      <File FileName="FAFSprite.cs" Line="56" Column="1" />
     </Files>
   </MonoDevelop.Ide.Workbench>
-  <MonoDevelop.Ide.Workspace ActiveConfiguration="Debug|iPhoneSimulator" />
+  <MonoDevelop.Ide.Workspace ActiveConfiguration="Debug|iPhone" />
   <MonoDevelop.Ide.DebuggingService.Breakpoints>
-    <BreakpointStore />
+    <BreakpointStore>
+      <Breakpoint file="/Users/lupisfer/src/hackathon/FAF/Game1.cs" line="73" column="1" />
+      <Breakpoint file="/Users/lupisfer/src/hackathon/FAF/Game1.cs" line="65" column="1" />
+      <Breakpoint file="/Users/lupisfer/src/hackathon/FAF/FAFScrollingBackground.cs" line="30" column="1" />
+    </BreakpointStore>
   </MonoDevelop.Ide.DebuggingService.Breakpoints>
   <MonoDevelop.Ide.ItemProperties.FAF.Droid PreferredExecutionTarget="Android.ENU7N16315000767" />
   <MonoDevelop.Ide.DebuggingService.PinnedWatches />
-  <MonoDevelop.Ide.ItemProperties.FAF.iOS PreferredExecutionTarget="MonoDevelop.IPhone.IPhoneSimulatorTarget.8D9482C9-AF07-4A92-BEF2-F11AF724315C" />
+  <MonoDevelop.Ide.ItemProperties.FAF.iOS PreferredExecutionTarget="MonoDevelop.IPhone.IPhoneDeviceTarget.b695a30faa128742b8a79f985a8475fb0a42eef5" />
 </Properties>

@@ -66,16 +66,48 @@
   </ItemGroup>
   <ItemGroup>
     <AndroidAsset Include="Assets\AboutAssets.txt" />
-    <AndroidAsset Include="Assets\Content\Background01.png" />
-    <AndroidAsset Include="Assets\Content\Background02.png" />
-    <AndroidAsset Include="Assets\Content\Background03.png" />
-    <AndroidAsset Include="Assets\Content\Background04.png" />
-    <AndroidAsset Include="Assets\Content\Background05.png" />
-    <AndroidAsset Include="Assets\Content\Background06.png" />
-    <AndroidAsset Include="Assets\Content\Background07.png" />
-  </ItemGroup>
-  <ItemGroup>
-    <MonoGameContentReference Include="Assets\Content\Content.mgcb" />
+    <AndroidAsset Include="..\iOS\Content\Background08.png">
+      <Link>Assets\Content\Background08.png</Link>
+    </AndroidAsset>
+    <AndroidAsset Include="..\iOS\Content\Background09.png">
+      <Link>Assets\Content\Background09.png</Link>
+    </AndroidAsset>
+    <AndroidAsset Include="..\iOS\Content\CAFFont.spritefont">
+      <Link>Assets\Content\CAFFont.spritefont</Link>
+    </AndroidAsset>
+    <AndroidAsset Include="..\iOS\Content\CAFFontMassive.spritefont">
+      <Link>Assets\Content\CAFFontMassive.spritefont</Link>
+    </AndroidAsset>
+    <AndroidAsset Include="..\iOS\Content\GothamRounded-Medium.otf">
+      <Link>Assets\Content\GothamRounded-Medium.otf</Link>
+    </AndroidAsset>
+    <AndroidAsset Include="..\iOS\Content\MiddleFinger.png">
+      <Link>Assets\Content\MiddleFinger.png</Link>
+    </AndroidAsset>
+    <AndroidAsset Include="..\iOS\Content\Background01.png">
+      <Link>Assets\Content\Background01.png</Link>
+    </AndroidAsset>
+    <AndroidAsset Include="..\iOS\Content\Background02.png">
+      <Link>Assets\Content\Background02.png</Link>
+    </AndroidAsset>
+    <AndroidAsset Include="..\iOS\Content\Background03.png">
+      <Link>Assets\Content\Background03.png</Link>
+    </AndroidAsset>
+    <AndroidAsset Include="..\iOS\Content\Background04.png">
+      <Link>Assets\Content\Background04.png</Link>
+    </AndroidAsset>
+    <AndroidAsset Include="..\iOS\Content\Background05.png">
+      <Link>Assets\Content\Background05.png</Link>
+    </AndroidAsset>
+    <AndroidAsset Include="..\iOS\Content\Background06.png">
+      <Link>Assets\Content\Background06.png</Link>
+    </AndroidAsset>
+    <AndroidAsset Include="..\iOS\Content\Background07.png">
+      <Link>Assets\Content\Background07.png</Link>
+    </AndroidAsset>
+    <AndroidAsset Include="..\iOS\Content\Content.mgcb">
+      <Link>Assets\Content\Content.mgcb</Link>
+    </AndroidAsset>
   </ItemGroup>
   <Import Project="..\FAF.projitems" Label="Shared" Condition="Exists('..\FAF.projitems')" />
   <Import Project="$(MSBuildExtensionsPath)\Xamarin\Android\Xamarin.Android.CSharp.targets" />

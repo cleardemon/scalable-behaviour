@@ -48,6 +48,7 @@
     <MtouchHttpClientHandler>HttpClientHandler</MtouchHttpClientHandler>
     <MtouchTlsProvider>Default</MtouchTlsProvider>
     <PlatformTarget>x86</PlatformTarget>
+    <AssemblyName>Scalable</AssemblyName>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|iPhoneSimulator' ">
     <DebugType>pdbonly</DebugType>
@@ -85,6 +86,7 @@
     <MtouchHttpClientHandler>HttpClientHandler</MtouchHttpClientHandler>
     <MtouchTlsProvider>Default</MtouchTlsProvider>
     <PlatformTarget>x86</PlatformTarget>
+    <AssemblyName>Scalable</AssemblyName>
   </PropertyGroup>
   <ItemGroup>
     <Reference Include="System" />
@@ -115,6 +117,9 @@
     <BundleResource Include="Content\Background05.png" />
     <BundleResource Include="Content\Background06.png" />
     <BundleResource Include="Content\Background07.png" />
+    <BundleResource Include="Content\Background08.png" />
+    <BundleResource Include="Content\Background09.png" />
+    <BundleResource Include="Content\MiddleFinger.png" />
   </ItemGroup>
   <ItemGroup>
     <MonoGameContentReference Include="Content\Content.mgcb" />

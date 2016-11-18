@@ -57,6 +57,8 @@ namespace FAF
             scrollingBackground.AddBackground("Content/Background05.png");
             scrollingBackground.AddBackground("Content/Background06.png");
             scrollingBackground.AddBackground("Content/Background07.png");
+            scrollingBackground.AddBackground("Content/Background08.png");
+            scrollingBackground.AddBackground("Content/Background09.png");
             scrollingBackground.LoadContent(GraphicsDevice);
 
             // init font
@@ -68,7 +70,7 @@ namespace FAF
             uiBackgroundShadow = new Texture2D(GraphicsDevice, 1, 1);
             uiBackgroundGrey.SetData(new[] { new Color(49, 49, 49) });
             uiBackgroundShadow.SetData(new[] { new Color(0f, 0f, 0f, 0.5f) });
-            //uiFingerGlyph = Content.Load<Texture2D>("MiddleFinger");
+            uiFingerGlyph = Content.Load<Texture2D>("MiddleFinger");
         }
 
         protected override void UnloadContent()
@@ -119,8 +121,8 @@ namespace FAF
             var fontSize = font.MeasureString(text);
             if (glyph != null)
             {
-                fontSize.X += glyph.Width + shadowExtraWidth;
-                fontSize.Y = Math.Max(fontSize.Y, fontSize.Y + glyph.Height) + shadowExtraHeight;
+                fontSize.X += glyph.Width + (shadowExtraWidth / 2);
+                fontSize.Y = Math.Max(fontSize.Y, glyph.Height);
             }            
             int rx, ry;
             if (x < 0)
@@ -138,7 +140,7 @@ namespace FAF
             else
             {
                 spriteBatch.Draw(glyph, destinationRectangle: new Rectangle(rx + (shadowExtraWidth / 2), ry + (shadowExtraHeight / 2), glyph.Width, glyph.Height));
-                spriteBatch.DrawString(font, text, new Vector2(rx + (shadowExtraWidth / 2), ry + (shadowExtraHeight / 2)), colour);
+                spriteBatch.DrawString(font, text, new Vector2(rx + glyph.Width + ((shadowExtraWidth / 2) * 2), ry + (shadowExtraHeight / 2)), colour);
             }
         }
 
