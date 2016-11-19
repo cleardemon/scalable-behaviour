@@ -66,24 +66,6 @@
   </ItemGroup>
   <ItemGroup>
     <AndroidAsset Include="Assets\AboutAssets.txt" />
-    <AndroidAsset Include="..\iOS\Content\Background08.png">
-      <Link>Assets\Content\Background08.png</Link>
-    </AndroidAsset>
-    <AndroidAsset Include="..\iOS\Content\Background09.png">
-      <Link>Assets\Content\Background09.png</Link>
-    </AndroidAsset>
-    <AndroidAsset Include="..\iOS\Content\CAFFont.spritefont">
-      <Link>Assets\Content\CAFFont.spritefont</Link>
-    </AndroidAsset>
-    <AndroidAsset Include="..\iOS\Content\CAFFontMassive.spritefont">
-      <Link>Assets\Content\CAFFontMassive.spritefont</Link>
-    </AndroidAsset>
-    <AndroidAsset Include="..\iOS\Content\GothamRounded-Medium.otf">
-      <Link>Assets\Content\GothamRounded-Medium.otf</Link>
-    </AndroidAsset>
-    <AndroidAsset Include="..\iOS\Content\MiddleFinger.png">
-      <Link>Assets\Content\MiddleFinger.png</Link>
-    </AndroidAsset>
     <AndroidAsset Include="..\iOS\Content\Background01.png">
       <Link>Assets\Content\Background01.png</Link>
     </AndroidAsset>
@@ -105,9 +87,77 @@
     <AndroidAsset Include="..\iOS\Content\Background07.png">
       <Link>Assets\Content\Background07.png</Link>
     </AndroidAsset>
-    <AndroidAsset Include="..\iOS\Content\Content.mgcb">
-      <Link>Assets\Content\Content.mgcb</Link>
+    <AndroidAsset Include="..\iOS\Content\Background08.png">
+      <Link>Assets\Content\Background08.png</Link>
     </AndroidAsset>
+    <AndroidAsset Include="..\iOS\Content\Background09.png">
+      <Link>Assets\Content\Background09.png</Link>
+    </AndroidAsset>
+    <AndroidAsset Include="..\iOS\Content\Background10.png">
+      <Link>Assets\Content\Background10.png</Link>
+    </AndroidAsset>
+    <AndroidAsset Include="..\iOS\Content\Background11.png">
+      <Link>Assets\Content\Background11.png</Link>
+    </AndroidAsset>
+    <AndroidAsset Include="..\iOS\Content\BigBadBoss.png">
+      <Link>Assets\Content\BigBadBoss.png</Link>
+    </AndroidAsset>
+    <AndroidAsset Include="..\iOS\Content\CAFFont.spritefont">
+      <Link>Assets\Content\CAFFont.spritefont</Link>
+    </AndroidAsset>
+    <AndroidAsset Include="..\iOS\Content\CAFFontMassive.spritefont">
+      <Link>Assets\Content\CAFFontMassive.spritefont</Link>
+    </AndroidAsset>
+    <AndroidAsset Include="..\iOS\Content\CharacterPlayer.png">
+      <Link>Assets\Content\CharacterPlayer.png</Link>
+    </AndroidAsset>
+    <AndroidAsset Include="..\iOS\Content\GameOverRestartButton.png">
+      <Link>Assets\Content\GameOverRestartButton.png</Link>
+    </AndroidAsset>
+    <AndroidAsset Include="..\iOS\Content\GameOverTitle.png">
+      <Link>Assets\Content\GameOverTitle.png</Link>
+    </AndroidAsset>
+    <AndroidAsset Include="..\iOS\Content\GothamRounded-Medium.otf">
+      <Link>Assets\Content\GothamRounded-Medium.otf</Link>
+    </AndroidAsset>
+    <AndroidAsset Include="..\iOS\Content\InfluencerKimble.png">
+      <Link>Assets\Content\InfluencerKimble.png</Link>
+    </AndroidAsset>
+    <AndroidAsset Include="..\iOS\Content\InfluencerLaunch.png">
+      <Link>Assets\Content\InfluencerLaunch.png</Link>
+    </AndroidAsset>
+    <AndroidAsset Include="..\iOS\Content\InfluencerNandos.png">
+      <Link>Assets\Content\InfluencerNandos.png</Link>
+    </AndroidAsset>
+    <AndroidAsset Include="..\iOS\Content\InfluencerSalary.png">
+      <Link>Assets\Content\InfluencerSalary.png</Link>
+    </AndroidAsset>
+    <AndroidAsset Include="..\iOS\Content\InfluencerSales.png">
+      <Link>Assets\Content\InfluencerSales.png</Link>
+    </AndroidAsset>
+    <AndroidAsset Include="..\iOS\Content\InfluencerStateBad.png">
+      <Link>Assets\Content\InfluencerStateBad.png</Link>
+    </AndroidAsset>
+    <AndroidAsset Include="..\iOS\Content\InfluencerStateGood.png">
+      <Link>Assets\Content\InfluencerStateGood.png</Link>
+    </AndroidAsset>
+    <AndroidAsset Include="..\iOS\Content\InfluencerSteve.png">
+      <Link>Assets\Content\InfluencerSteve.png</Link>
+    </AndroidAsset>
+    <AndroidAsset Include="..\iOS\Content\MiddleFinger.png">
+      <Link>Assets\Content\MiddleFinger.png</Link>
+    </AndroidAsset>
+    <AndroidAsset Include="..\iOS\Content\TitleButton.png">
+      <Link>Assets\Content\TitleButton.png</Link>
+    </AndroidAsset>
+    <AndroidAsset Include="..\iOS\Content\TitleHeader.png">
+      <Link>Assets\Content\TitleHeader.png</Link>
+    </AndroidAsset>
+  </ItemGroup>
+  <ItemGroup>
+    <MonoGameContentReference Include="..\iOS\Content\Content.mgcb">
+      <Link>Assets\Content\Content.mgcb</Link>
+    </MonoGameContentReference>
   </ItemGroup>
   <Import Project="..\FAF.projitems" Label="Shared" Condition="Exists('..\FAF.projitems')" />
   <Import Project="$(MSBuildExtensionsPath)\Xamarin\Android\Xamarin.Android.CSharp.targets" />
