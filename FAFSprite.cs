@@ -99,7 +99,7 @@ namespace FAF
         }
     }
 
-    public class FAFSprite
+    public class FAFSprite : ICloneable
     {
         public Vector2 Position
         {
@@ -142,6 +142,16 @@ namespace FAF
             Size = texture != null ? new Rectangle(0, 0, (int)(texture.Width * Scale.X), (int)(texture.Height * Scale.Y)) : Rectangle.Empty;
         }
 
+        public Point FrameSize
+        {
+            get
+            {
+                if (Animation != null)
+                    return Animation.CurrentFrameRectangle.Size;
+                return Size.Size;
+            }
+        }
+
         public void LoadContent(GraphicsDevice gd)
         {
             using (var s = TitleContainer.OpenStream(AssetName))
@@ -164,6 +174,35 @@ namespace FAF
             }
             else
                 sb.Draw(texture, Position, scale: Scale);
+        }
+
+        public void Move(float dx, float dy, float clampValue = float.MinValue)
+        {
+            dx = Math.Max(Position.X + dx, clampValue);
+            dy = Math.Max(Position.Y + dy, clampValue);
+            Position = new Vector2(dx, dy);
+        }
+
+        public object Clone()
+        {
+            var s = new FAFSprite(AssetName, Animation)
+            {
+                texture = texture,
+                Position = Position,
+                Scale = Scale
+            };
+            s.UpdateSize();
+            return s;
+        }
+
+        public bool HasCollision(FAFSprite sp)
+        {
+            var ss = sp.FrameSize;
+            var ts = FrameSize;
+            var sourceRect = new Rectangle((int)sp.Position.X, (int)sp.Position.Y, ss.X, ss.Y);
+            var targetRect = new Rectangle((int)Position.X, (int)Position.Y, ts.X, ts.Y);
+
+            return targetRect.Intersects(sourceRect);
         }
 
         public FAFSprite(string assetName, FAFSpriteAnimation animation = null)

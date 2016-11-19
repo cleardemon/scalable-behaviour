@@ -121,6 +121,14 @@
     <BundleResource Include="Content\Background09.png" />
     <BundleResource Include="Content\MiddleFinger.png" />
     <BundleResource Include="Content\CharacterPlayer.png" />
+    <BundleResource Include="Content\InfluencerKimble.png" />
+    <BundleResource Include="Content\InfluencerLaunch.png" />
+    <BundleResource Include="Content\InfluencerNandos.png" />
+    <BundleResource Include="Content\InfluencerSalary.png" />
+    <BundleResource Include="Content\InfluencerSales.png" />
+    <BundleResource Include="Content\InfluencerSteve.png" />
+    <BundleResource Include="Content\InfluencerStateBad.png" />
+    <BundleResource Include="Content\InfluencerStateGood.png" />
   </ItemGroup>
   <ItemGroup>
     <MonoGameContentReference Include="Content\Content.mgcb" />

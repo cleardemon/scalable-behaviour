@@ -1,8 +1,10 @@
 ﻿using System;
-
+using System.Collections.Generic;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using Microsoft.Xna.Framework.Input;
+using Microsoft.Xna.Framework.Input.Touch;
+using System.Linq;
 
 namespace FAF
 {
@@ -19,13 +21,25 @@ namespace FAF
         Texture2D uiFingerGlyph;
 
         FAFSprite spritePlayer;
+        bool playerJumping;
+        int playerJumpSpeed = 0;
+        int playerStartY, playerMinY;
+        int playerPoints;
+
+        Random rand;
+        readonly Dictionary<InfluencerType, FAFInfluencer> influencers = new Dictionary<InfluencerType, FAFInfluencer>();
+        readonly List<FAFInfluencer> visibleInfluencers = new List<FAFInfluencer>();
 
         FAFScrollingBackground scrollingBackground;
 
         public Game1()
         {
+            rand = new Random();
+
             graphics = new GraphicsDeviceManager(this);
             Content.RootDirectory = "Content";
+
+            RestartGame();
         }
 
         /// <summary>
@@ -74,9 +88,21 @@ namespace FAF
             uiBackgroundShadow.SetData(new[] { new Color(0f, 0f, 0f, 0.5f) });
             uiFingerGlyph = Content.Load<Texture2D>("MiddleFinger");
 
+            // player
             spritePlayer = new FAFSprite("Content/CharacterPlayer.png", FAFSpriteAnimation.FromFrameCount(250, 358, 12, frameRate: 0.04));
-            spritePlayer.Position = new Vector2(50, GraphicsDevice.Viewport.Height - 400);
+            playerStartY = GraphicsDevice.Viewport.Height - 400;
+            playerMinY = -GraphicsDevice.Viewport.Height;
+            spritePlayer.Position = new Vector2(50, playerStartY);
             spritePlayer.LoadContent(GraphicsDevice);
+
+            // influencers
+            FAFInfluencer.Init(GraphicsDevice);
+            influencers.Add(InfluencerType.Kimble, new FAFInfluencer(new FAFSprite("Content/InfluencerKimble.png"), GraphicsDevice) { PointsOnCollision = -100, Speed = 1 });
+            influencers.Add(InfluencerType.FixedPriceSales, new FAFInfluencer(new FAFSprite("Content/InfluencerSales.png"), GraphicsDevice) { PointsOnCollision = -100, Speed = 1 });
+            influencers.Add(InfluencerType.Nandos, new FAFInfluencer(new FAFSprite("Content/InfluencerNandos.png"), GraphicsDevice) { PointsOnCollision = 100, Speed = 1 });
+            influencers.Add(InfluencerType.ProjectLaunch, new FAFInfluencer(new FAFSprite("Content/InfluencerLaunch.png"), GraphicsDevice) { PointsOnCollision = 100, Speed = 1 });
+            influencers.Add(InfluencerType.Whitfield, new FAFInfluencer(new FAFSprite("Content/InfluencerSteve.png"), GraphicsDevice) { PointsOnCollision = -100, Speed = 1 });
+            influencers.Add(InfluencerType.SalaryIncrease, new FAFInfluencer(new FAFSprite("Content/InfluencerSalary.png"), GraphicsDevice) { PointsOnCollision = 100, Speed = 1 });
         }
 
         protected override void UnloadContent()
@@ -95,6 +121,11 @@ namespace FAF
             }
         }
 
+        void RestartGame()
+        {
+            playerPoints = 1927;
+        }
+
         /// <summary>
         /// Allows the game to run logic such as updating the world,
         /// checking for collisions, gathering input, and playing audio.
@@ -108,6 +139,68 @@ namespace FAF
             if (GamePad.GetState(PlayerIndex.One).Buttons.Back == ButtonState.Pressed || Keyboard.GetState().IsKeyDown(Keys.Escape))
                 Exit();
 #endif
+
+            // check for player jump
+            var ts = TouchPanel.GetState();
+            if (ts.Count > 0)
+            {
+                var touch = ts[0];
+                if (touch.State == TouchLocationState.Pressed)
+                {
+                    playerJumpSpeed = -14;
+                    playerJumping = true;
+                }
+            }
+
+            // move player if jumping
+            if (playerJumping)
+            {
+                spritePlayer.Move(0, playerJumpSpeed, playerMinY);
+                playerJumpSpeed++;
+                if (spritePlayer.Position.Y >= playerStartY)
+                {
+                    spritePlayer.Position = new Vector2(spritePlayer.Position.X, playerStartY);
+                    playerJumping = false;
+                }
+            }
+
+            // add an influncer?
+            var addNPC = rand.Next(0, 10000) > 9900;
+            if (addNPC)
+            {
+                var npcType = (InfluencerType)rand.Next(0, influencers.Count - 1);
+                var inf = (FAFInfluencer)influencers[npcType].Clone();
+                // start it off the screen
+                inf.Sprite.Position = new Vector2(GraphicsDevice.Viewport.Width, rand.Next(20, playerStartY + 200));
+                visibleInfluencers.Add(inf);
+            }
+
+            // game logic for influencers
+            for (var ii = 0; ii < visibleInfluencers.Count; ii++)
+            {
+                var i = visibleInfluencers[ii];
+                // is kill?
+                if (i.IsKilled(gameTime))
+                {
+                    visibleInfluencers.Remove(i);
+                    ii--;
+                    continue;
+                }
+
+                // move it
+                i.Sprite.Move(-i.Speed, i.GetYDelta());
+
+                // check collision with player
+                if (!i.PointsAwarded && i.Sprite.HasCollision(spritePlayer))
+                {
+                    i.SetKilled(gameTime);
+                    // award points
+                    playerPoints += i.PointsOnCollision;
+                    i.PointsAwarded = true;
+                }
+
+                i.Sprite.Update(gameTime);
+            }
 
             scrollingBackground.Update(gameTime, 160, FAFScrollingBackground.ScrollDirection.Left);
             spritePlayer.Update(gameTime);
@@ -162,12 +255,18 @@ namespace FAF
             spriteBatch.Begin();
             scrollingBackground.Draw(spriteBatch);
 
+            // influencers
+            foreach (var i in visibleInfluencers)
+            {
+                i.Sprite.Draw(spriteBatch);
+            }
+            // player
+            spritePlayer.Draw(spriteBatch);
+
             // level time
             DrawRectangleText(fontCAFMassive, 20, 20, "12pm", Color.White);
             // level score
-            DrawRectangleText(fontCAFMassive, -40, 20, "1927", Color.White, uiFingerGlyph);
-            // player
-            spritePlayer.Draw(spriteBatch);
+            DrawRectangleText(fontCAFMassive, -40, 20, playerPoints.ToString(), Color.White, uiFingerGlyph);
 
             spriteBatch.End();
 
