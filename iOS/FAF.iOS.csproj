@@ -129,6 +129,13 @@
     <BundleResource Include="Content\InfluencerSteve.png" />
     <BundleResource Include="Content\InfluencerStateBad.png" />
     <BundleResource Include="Content\InfluencerStateGood.png" />
+    <BundleResource Include="Content\GameOverRestartButton.png" />
+    <BundleResource Include="Content\GameOverTitle.png" />
+    <BundleResource Include="Content\TitleButton.png" />
+    <BundleResource Include="Content\TitleHeader.png" />
+    <BundleResource Include="Content\BigBadBoss.png" />
+    <BundleResource Include="Content\Background10.png" />
+    <BundleResource Include="Content\Background11.png" />
   </ItemGroup>
   <ItemGroup>
     <MonoGameContentReference Include="Content\Content.mgcb" />

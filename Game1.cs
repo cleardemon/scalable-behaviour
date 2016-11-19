@@ -18,7 +18,8 @@ namespace FAF
             Title,
             InGame,
             GameOverBad,
-            GameOverGood
+            GameOverGood,
+            BossReveal
         }
 
         GraphicsDeviceManager graphics;
@@ -27,6 +28,8 @@ namespace FAF
         SpriteFont fontCAFNormal, fontCAFMassive;
         Texture2D uiBackgroundGrey, uiBackgroundShadow;
         Texture2D uiFingerGlyph;
+        FAFSprite uiBigBadBoss, uiTitleHeader, uiTitleButton;
+        FAFSprite uiGameOverTitle, uiGameOverButton;
 
         FAFSprite spritePlayer;
         FAFSpriteAnimation animPlayerRunning;
@@ -85,6 +88,8 @@ namespace FAF
             scrollingBackground.AddBackground("Content/Background07.png");
             scrollingBackground.AddBackground("Content/Background08.png");
             scrollingBackground.AddBackground("Content/Background09.png");
+            scrollingBackground.AddBackground("Content/Background10.png");
+            scrollingBackground.AddBackground("Content/Background11.png");
             scrollingBackground.LoadContent(GraphicsDevice);
 
             // init font
@@ -97,7 +102,17 @@ namespace FAF
             uiBackgroundGrey.SetData(new[] { new Color(49, 49, 49) });
             uiBackgroundShadow.SetData(new[] { new Color(0f, 0f, 0f, 0.5f) });
             uiFingerGlyph = Content.Load<Texture2D>("MiddleFinger");
-
+            uiBigBadBoss = new FAFSprite("Content/BigBadBoss.png");
+            uiBigBadBoss.LoadContent(GraphicsDevice);
+            uiGameOverTitle = new FAFSprite("Content/GameOverTitle.png");
+            uiGameOverTitle.LoadContent(GraphicsDevice);
+            uiGameOverButton = new FAFSprite("Content/GameOverRestartButton.png");
+            uiGameOverButton.LoadContent(GraphicsDevice);
+            uiTitleHeader = new FAFSprite("Content/TitleHeader.png");
+            uiTitleHeader.LoadContent(GraphicsDevice);
+            uiTitleButton = new FAFSprite("Content/TitleButton.png");
+            uiTitleButton.LoadContent(GraphicsDevice);
+            
             // player
             animPlayerRunning = FAFSpriteAnimation.FromFrameCount(250, 358, 12, frameRate: 0.04);
             animPlayerJumping = FAFSpriteAnimation.FromFrameCount(250, 358, 1, 358); // one jump frame
@@ -112,7 +127,8 @@ namespace FAF
             influencers.Add(InfluencerType.Kimble, new FAFInfluencer(new FAFSprite("Content/InfluencerKimble.png") { Scale = new Vector2(2, 2) }, GraphicsDevice) 
             { 
                 PointsOnCollision = -192, 
-                Speed = 1 
+                Speed = 2,
+                VariableYAmount = 20
             });
             influencers.Add(InfluencerType.FixedPriceSales, new FAFInfluencer(new FAFSprite("Content/InfluencerSales.png"), GraphicsDevice) 
             { 
@@ -121,9 +137,8 @@ namespace FAF
             });
             influencers.Add(InfluencerType.Nandos, new FAFInfluencer(new FAFSprite("Content/InfluencerNandos.png"), GraphicsDevice) 
             { 
-                PointsOnCollision = 192, 
-                Speed = 2, 
-                VariableYAmount = 20 
+                PointsOnCollision = 192,
+                VariableYAmount = 3
             });
             influencers.Add(InfluencerType.ProjectLaunch, new FAFInfluencer(new FAFSprite("Content/InfluencerLaunch.png"), GraphicsDevice) 
             { 
@@ -143,6 +158,7 @@ namespace FAF
             });
 
             RestartGame();
+            playerGameState = GameState.Title;
         }
 
         protected override void UnloadContent()
@@ -174,6 +190,19 @@ namespace FAF
             visibleInfluencers.Clear();
 
             playerGameState = GameState.InGame;
+
+            uiBigBadBoss.Scale = new Vector2(0.25f);
+        }
+
+        bool DidTapScreen()
+        {
+            var ts = TouchPanel.GetState();
+            if (ts.Count > 0)
+            {
+                var touch = ts[0];
+                return touch.State == TouchLocationState.Released;
+            }
+            return false;
         }
 
         /// <summary>
@@ -189,6 +218,8 @@ namespace FAF
             if (GamePad.GetState(PlayerIndex.One).Buttons.Back == ButtonState.Pressed || Keyboard.GetState().IsKeyDown(Keys.Escape))
                 Exit();
 #endif
+
+            // double if, sorry
             if (playerGameState == GameState.InGame)
             {
                 if (gameRoundStartTime == TimeSpan.Zero)
@@ -197,13 +228,17 @@ namespace FAF
                 if (gameRoundTime.TotalSeconds > 60)
                 {
                     // game over! good
-
+                    playerGameState = GameState.GameOverGood;
                 }
                 if (playerPoints < 0)
                 {
                     // game over! bad
+                    playerGameState = GameState.BossReveal;
                 }
+            }
 
+            if (playerGameState == GameState.InGame)
+            {
                 // check for player jump
                 var ts = TouchPanel.GetState();
                 if (ts.Count > 0)
@@ -235,7 +270,7 @@ namespace FAF
                 if (addNPC)
                 {
                     nextSpawnTime = gameTime.TotalGameTime.Add(TimeSpan.FromSeconds(1));
-                    var npcType = (InfluencerType)rand.Next(0, influencers.Count - 1);
+                    var npcType = (InfluencerType)rand.Next(0, influencers.Count);
                     var inf = (FAFInfluencer)influencers[npcType].Clone();
                     // start it off the screen
                     inf.Sprite.Position = new Vector2(GraphicsDevice.Viewport.Width, rand.Next(20, playerStartY + 200));
@@ -273,8 +308,36 @@ namespace FAF
                 }
             }
 
-            scrollingBackground.Update(gameTime, 160, FAFScrollingBackground.ScrollDirection.Left);
-            spritePlayer.Update(gameTime);
+
+            // only draw background if not showing boss reveal
+            if(playerGameState != GameState.BossReveal)
+                scrollingBackground.Update(gameTime, 150, FAFScrollingBackground.ScrollDirection.Left);
+            // only draw player if on title or in game
+            if (playerGameState == GameState.Title || playerGameState == GameState.InGame)
+                spritePlayer.Update(gameTime);
+
+            if (playerGameState == GameState.Title)
+            {
+                uiTitleHeader.Position = new Vector2((GraphicsDevice.Viewport.Width - uiTitleHeader.FrameSize.X) / 2, ((GraphicsDevice.Viewport.Height - uiTitleHeader.FrameSize.Y) / 2) - 100);
+                uiTitleButton.Position = new Vector2((GraphicsDevice.Viewport.Width - uiTitleButton.FrameSize.X) / 2, ((GraphicsDevice.Viewport.Height - uiTitleButton.FrameSize.Y) - 100));
+                if (DidTapScreen())
+                    RestartGame();
+            }
+            if (playerGameState == GameState.BossReveal)
+            {
+                // scalable behaviour
+                uiBigBadBoss.Position = new Vector2((GraphicsDevice.Viewport.Width - uiBigBadBoss.FrameSize.X) / 2, ((GraphicsDevice.Viewport.Height - uiBigBadBoss.FrameSize.Y) / 2));
+                uiBigBadBoss.Scale = new Vector2((float)(uiBigBadBoss.Scale.X + 0.025));
+                if (uiBigBadBoss.Scale.X > 10)
+                    playerGameState = GameState.GameOverGood; // you win a boss
+            }
+            if (playerGameState == GameState.GameOverBad || playerGameState == GameState.GameOverGood)
+            {
+                uiGameOverTitle.Position = new Vector2((GraphicsDevice.Viewport.Width - uiGameOverTitle.FrameSize.X) / 2, ((GraphicsDevice.Viewport.Height - uiTitleHeader.FrameSize.Y) / 2) - 50);
+                uiGameOverButton.Position = new Vector2((GraphicsDevice.Viewport.Width - uiGameOverButton.FrameSize.X) / 2, ((GraphicsDevice.Viewport.Height - uiGameOverButton.FrameSize.Y) - 100));
+                if (DidTapScreen())
+                    playerGameState = GameState.Title;
+            }
 
             base.Update(gameTime);
         }
@@ -321,25 +384,59 @@ namespace FAF
         /// <param name="gameTime">Provides a snapshot of timing values.</param>
         protected override void Draw(GameTime gameTime)
         {
-            graphics.GraphicsDevice.Clear(Color.CornflowerBlue);
+            graphics.GraphicsDevice.Clear(Color.Black);
 
             spriteBatch.Begin();
-            scrollingBackground.Draw(spriteBatch);
 
-            // influencers
-            foreach (var i in visibleInfluencers)
+            // only draw background if not showing boss reveal
+            if (playerGameState != GameState.BossReveal)
+                scrollingBackground.Draw(spriteBatch);
+
+            if (playerGameState == GameState.InGame)
             {
-                i.Sprite.Draw(spriteBatch);
-            }
-            // player
-            spritePlayer.Draw(spriteBatch);
+                // influencers
+                foreach (var i in visibleInfluencers)
+                {
+                    i.Sprite.Draw(spriteBatch);
+                }
+                // player
+                spritePlayer.Draw(spriteBatch);
 
-            // level time (we show from 9am to 6pm)
-            var hours = 9 + (gameRoundTime.TotalSeconds / (60 / 9));
-            var hoursText = ((int)hours) + (hours < 12 ? "am" : "pm");
-            DrawRectangleText(fontCAFMassive, 20, 20, hoursText, Color.White);
-            // level score
-            DrawRectangleText(fontCAFMassive, -40, 20, playerPoints.ToString(), Color.White, uiFingerGlyph);
+                // level time (we show from 9am to 6pm)
+                var hours = Math.Min(9 + (gameRoundTime.TotalSeconds / (60 / 9)), 18);
+                string hoursText;
+                if (hours < 12)
+                    hoursText = ((int)hours) + "am";
+                else if (hours < 13)
+                    hoursText = "12pm";
+                else
+                    hoursText = (((int)hours) - 12) + "pm";
+                DrawRectangleText(fontCAFMassive, 20, 20, hoursText, Color.White);
+                // level score
+                DrawRectangleText(fontCAFMassive, -40, 20, playerPoints.ToString(), Color.White, uiFingerGlyph);
+            }
+
+            if (playerGameState == GameState.BossReveal)
+            {
+                // big bad boss
+                uiBigBadBoss.Draw(spriteBatch);
+            }
+
+            if (playerGameState == GameState.Title)
+            {
+                // title screen
+                uiTitleHeader.Draw(spriteBatch);
+                uiTitleButton.Draw(spriteBatch);
+            }
+
+            if (playerGameState == GameState.GameOverBad || playerGameState == GameState.GameOverGood)
+            {
+                uiGameOverTitle.Draw(spriteBatch);
+                // draw score
+                DrawRectangleText(fontCAFMassive, (GraphicsDevice.Viewport.Width - 250) / 2, (GraphicsDevice.Viewport.Height - 65) / 2, playerPoints.ToString(), Color.White, uiFingerGlyph);
+
+                uiGameOverButton.Draw(spriteBatch);
+            }
 
             spriteBatch.End();
 

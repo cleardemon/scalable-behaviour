@@ -195,7 +195,7 @@ namespace FAF
             return s;
         }
 
-        public bool HasCollision(FAFSprite sp, int offsetBorder = 20)
+        public bool HasCollision(FAFSprite sp, int offsetBorder = 30)
         {
             var ss = sp.FrameSize;
             var ts = FrameSize;
