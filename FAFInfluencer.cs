@@ -16,6 +16,8 @@ namespace FAF
 
     public class FAFInfluencer : ICloneable
     {
+        const int BaseSpeed = 2;
+        
         static FAFSprite StateSpriteGood, StateSpriteBad;
 
         public static void Init(GraphicsDevice gd)
@@ -38,10 +40,18 @@ namespace FAF
             set;
         }
 
+
+        int speed;
         public int Speed
         {
-            get;
-            set;
+            get
+            {
+                return BaseSpeed + speed;
+            }
+            set
+            {
+                speed = value;
+            }
         }
 
         public int VariableYAmount

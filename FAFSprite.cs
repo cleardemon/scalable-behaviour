@@ -195,13 +195,16 @@ namespace FAF
             return s;
         }
 
-        public bool HasCollision(FAFSprite sp)
+        public bool HasCollision(FAFSprite sp, int offsetBorder = 20)
         {
             var ss = sp.FrameSize;
             var ts = FrameSize;
             var sourceRect = new Rectangle((int)sp.Position.X, (int)sp.Position.Y, ss.X, ss.Y);
+
             var targetRect = new Rectangle((int)Position.X, (int)Position.Y, ts.X, ts.Y);
 
+            sourceRect.Inflate(-offsetBorder, -offsetBorder);
+            targetRect.Inflate(-offsetBorder, -offsetBorder);
             return targetRect.Intersects(sourceRect);
         }
 
