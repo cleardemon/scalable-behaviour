@@ -35,11 +35,23 @@ namespace FAF
         FAFSpriteAnimation animPlayerRunning;
         FAFSpriteAnimation animPlayerJumping;
         bool playerJumping;
-        int playerJumpSpeed = 0;
+        int playerJumpSpeed;
+        int playerJumpCount; // number of jumps made since started jumping
+        const int MaxJumpCount = 6; // total number of jumps allowed when jumping
         int playerStartY, playerMinY;
         int playerPoints;
         GameState playerGameState;
+        TimeSpan playerGameStateChanged;
         const int PointDegredation = 50; // happens when an influencer spawns
+
+        GameState PlayerGameState
+        {
+            get { return playerGameState; }
+            set
+            {
+                playerGameState = value;
+            }
+        }
 
         Random rand;
         readonly Dictionary<InfluencerType, FAFInfluencer> influencers = new Dictionary<InfluencerType, FAFInfluencer>();
@@ -114,7 +126,7 @@ namespace FAF
             uiTitleButton.LoadContent(GraphicsDevice);
             
             // player
-            animPlayerRunning = FAFSpriteAnimation.FromFrameCount(250, 358, 12, frameRate: 0.04);
+            animPlayerRunning = FAFSpriteAnimation.FromFrameCount(250, 358, 12, frameRate: 0.06);
             animPlayerJumping = FAFSpriteAnimation.FromFrameCount(250, 358, 1, 358); // one jump frame
             spritePlayer = new FAFSprite("Content/CharacterPlayer.png", animPlayerRunning);
             playerStartY = GraphicsDevice.Viewport.Height - 400;
@@ -124,7 +136,7 @@ namespace FAF
 
             // influencers
             FAFInfluencer.Init(GraphicsDevice);
-            influencers.Add(InfluencerType.Kimble, new FAFInfluencer(new FAFSprite("Content/InfluencerKimble.png") { Scale = new Vector2(2, 2) }, GraphicsDevice) 
+            influencers.Add(InfluencerType.Kimble, new FAFInfluencer(new FAFSprite("Content/InfluencerKimble.png"), GraphicsDevice) 
             { 
                 PointsOnCollision = -192, 
                 Speed = 2,
@@ -186,7 +198,9 @@ namespace FAF
             nextSpawnTime = TimeSpan.Zero;
             gameRoundStartTime = TimeSpan.Zero;
             spritePlayer.Position = new Vector2(spritePlayer.Position.X, playerStartY);
+            spritePlayer.Animation = animPlayerRunning;
             playerJumping = false;
+            playerJumpCount = 0;
             visibleInfluencers.Clear();
 
             playerGameState = GameState.InGame;
@@ -246,9 +260,13 @@ namespace FAF
                     var touch = ts[0];
                     if (touch.State == TouchLocationState.Pressed)
                     {
-                        playerJumpSpeed = -14;
-                        playerJumping = true;
-                        spritePlayer.Animation = animPlayerJumping;
+                        // only allow to jump a certain number of times before hitting ground
+                        if (playerJumpCount++ < MaxJumpCount)
+                        {
+                            playerJumpSpeed = -14;
+                            playerJumping = true;
+                            spritePlayer.Animation = animPlayerJumping;
+                        }
                     }
                 }
 
@@ -262,6 +280,7 @@ namespace FAF
                         spritePlayer.Position = new Vector2(spritePlayer.Position.X, playerStartY);
                         spritePlayer.Animation = animPlayerRunning;
                         playerJumping = false;
+                        playerJumpCount = 0;
                     }
                 }
 
@@ -311,7 +330,7 @@ namespace FAF
 
             // only draw background if not showing boss reveal
             if(playerGameState != GameState.BossReveal)
-                scrollingBackground.Update(gameTime, 150, FAFScrollingBackground.ScrollDirection.Left);
+                scrollingBackground.Update(gameTime, 125, FAFScrollingBackground.ScrollDirection.Left);
             // only draw player if on title or in game
             if (playerGameState == GameState.Title || playerGameState == GameState.InGame)
                 spritePlayer.Update(gameTime);
@@ -319,7 +338,7 @@ namespace FAF
             if (playerGameState == GameState.Title)
             {
                 uiTitleHeader.Position = new Vector2((GraphicsDevice.Viewport.Width - uiTitleHeader.FrameSize.X) / 2, ((GraphicsDevice.Viewport.Height - uiTitleHeader.FrameSize.Y) / 2) - 100);
-                uiTitleButton.Position = new Vector2((GraphicsDevice.Viewport.Width - uiTitleButton.FrameSize.X) / 2, ((GraphicsDevice.Viewport.Height - uiTitleButton.FrameSize.Y) - 100));
+                uiTitleButton.Position = new Vector2((GraphicsDevice.Viewport.Width - uiTitleButton.FrameSize.X) / 2, ((GraphicsDevice.Viewport.Height - uiTitleButton.FrameSize.Y) - 50));
                 if (DidTapScreen())
                     RestartGame();
             }
@@ -327,7 +346,7 @@ namespace FAF
             {
                 // scalable behaviour
                 uiBigBadBoss.Position = new Vector2((GraphicsDevice.Viewport.Width - uiBigBadBoss.FrameSize.X) / 2, ((GraphicsDevice.Viewport.Height - uiBigBadBoss.FrameSize.Y) / 2));
-                uiBigBadBoss.Scale = new Vector2((float)(uiBigBadBoss.Scale.X + 0.025));
+                uiBigBadBoss.Scale = new Vector2((float)(uiBigBadBoss.Scale.X + 0.04));
                 if (uiBigBadBoss.Scale.X > 10)
                     playerGameState = GameState.GameOverGood; // you win a boss
             }

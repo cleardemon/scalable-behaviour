@@ -5,8 +5,8 @@
       <File FileName="FAFScrollingBackground.cs" Line="116" Column="10" />
       <File FileName="FAFInfluencer.cs" Line="3" Column="2" />
       <File FileName="iOS/Info.plist" />
-      <File FileName="Game1.cs" Line="80" Column="16" />
-      <File FileName="FAFSprite.cs" Line="31" Column="33" />
+      <File FileName="Game1.cs" Line="37" Column="28" />
+      <File FileName="FAFSprite.cs" Line="31" Column="14" />
     </Files>
   </MonoDevelop.Ide.Workbench>
   <MonoDevelop.Ide.Workspace ActiveConfiguration="Debug|iPhoneSimulator" />
@@ -15,5 +15,5 @@
   </MonoDevelop.Ide.DebuggingService.Breakpoints>
   <MonoDevelop.Ide.ItemProperties.FAF.Droid PreferredExecutionTarget="Android.ENU7N16315000767" />
   <MonoDevelop.Ide.DebuggingService.PinnedWatches />
-  <MonoDevelop.Ide.ItemProperties.FAF.iOS PreferredExecutionTarget="MonoDevelop.IPhone.IPhoneSimulatorTarget.8D9482C9-AF07-4A92-BEF2-F11AF724315C" />
+  <MonoDevelop.Ide.ItemProperties.FAF.iOS PreferredExecutionTarget="MonoDevelop.IPhone.IPhoneSimulatorTarget.E4128022-1283-4E56-8218-E620D2015EC3" />
 </Properties>
